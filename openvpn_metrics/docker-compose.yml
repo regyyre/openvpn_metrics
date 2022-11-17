@@ -1,7 +1,19 @@
 version: '3.9'
 
 services:
-
+  dockovpn:
+    image: alekslitvinenk/openvpn
+    cap_add:
+        - NET_ADMIN
+    ports:
+        - 1194:1194/udp
+    environment:
+        HOST_ADDR: ${HOST_ADDR} 
+    volumes:
+        - ./openvpn_conf:/doc/Dockovpn
+        - ./openvpn/openvpn-status.log:/etc/openvpn_exporter/openvpn-status.log
+    restart: always
+    
   openvpn_exporter:
     image: kumina/openvpn-exporter
     volumes:
